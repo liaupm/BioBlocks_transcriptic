@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<!--
+The MIT License (MIT)
+
+Copyright (c) 2016 Universidad Politécnica de Madrid
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+-->
+<html> 
+<head>
+	<meta charset="utf-8">
+	<title>BioBlocks</title>
+	<!--Librarys of blockly-->
+		<script src="blockly_compressed.js"></script>
+		<script src="blocks_compressed.js"></script>
+		<script src="msg/js/en.js"></script>
+		<script src="javascript_compressed.js"></script>
+		<script src="naturalLanguage_english_compressed.js"></script>
+		<script src="graph_compressed.js"></script>
+		
+	<!--ModifiedBlocklyLibs-->
+		<script src="blocklyGraphsLib.js"></script>
+		
+	<!-Special library download from internet to save xml documents in the pc-->
+		<script src="FileSaver.js"></script>
+		
+	<!-Bioblocks librarys of the different blocks we use-->
+		<script src="BIOBLOCKS/containerLib.js"></script>
+		<script src="BIOBLOCKS/pipetteLib.js"></script>
+		<script src="BIOBLOCKS/centrifugation.js"></script>
+		<script src="BIOBLOCKS/electrophoresis.js"></script>
+		<script src="BIOBLOCKS/incubate.js"></script>
+		<script src="BIOBLOCKS/thermocycling.js"></script>
+		<script src="BIOBLOCKS/measurement.js"></script>
+		<script src="BIOBLOCKS/sangerSequencing.js"></script>
+		<script src="BIOBLOCKS/experiment.js"></script>
+		<script src="BIOBLOCKS/oligosynthesize.js"></script>
+		<script src="BIOBLOCKS/colonyPicking.js"></script>
+		<script src="BIOBLOCKS/cellSpreading.js"></script>
+		<script src="BIOBLOCKS/flowCitometry.js"></script>
+		<script src="BIOBLOCKS/flashFreeze.js"></script>
+		<script src="BIOBLOCKS/step.js"></script>
+		<script src="BIOBLOCKS/mix.js"></script>
+		<script src="BIOBLOCKS/turbidostat.js"></script>
+		
+	<!-Bioblocks translation libraries-->
+		<script src="javascript_bioBlocks.js"></script>
+		<script src="naturalLanguage_english_bioBlocks.js"></script>
+		<script src="bioBlocksGraphLib.js"></script>
+		
+	<!--Cytoscape librarys to graph-->
+		<script src="jquery-2.0.3.min.js"></script>
+		<script src="cytoscape.min.js"></script>
+		<!-- for testing with local version of cytoscape.js -->
+		<!--<script src="../cytoscape.js/build/cytoscape.js"></script>-->
+		<script src="dagre.min.js"></script>
+		<script src="cytoscape-dagre.js"></script>
+	
+	<!--Definition of the window scheme of the web page-->
+	<style>
+		html, body {
+			height: 100%;
+		}
+		body {
+			background-color: #fff;
+			font-family: sans-serif;
+			overflow: hidden;
+		}
+		h1 {
+			font-weight: normal;
+			font-size: 140%;
+		}
+		table {
+			border: 1px solid black;
+			border-spacing: 5px;
+			height: 100%;
+			width: 100%;
+		}
+		td{
+			vertical-align:top;
+			padding:0;
+		}
+		#blocklyArea {
+			height: 100%;
+			width : 50%;
+		}
+		
+		/* Style the list */
+		ul.tab {
+		    list-style-type: none;
+		    margin: 0;
+		    padding: 0;
+		    overflow: hidden;
+		    border: 1px solid #ccc;
+		    background-color: #f1f1f1;
+		    
+		}
+		
+		/* Float the list items side by side */
+		ul.tab li {float: left;}
+		
+		/* Style the links inside the list items */
+		ul.tab li a {
+		    display: inline-block;
+		    color: black;
+		    text-align: center;
+		    padding: 14px 16px;
+		    text-decoration: none;
+		    transition: 0.3s;
+		    font-size: 17px;
+		}
+		
+		/* Change background color of links on hover */
+		ul.tab li a:hover {background-color: #ddd;}
+		
+		/* Create an active/current tablink class */
+		ul.tab li a:focus, .active {background-color: #ccc;}
+		
+		/* Style the tab content */
+		.tabcontent {
+		    
+		    background-color:white;
+			height: 80%;
+			width : 48%;
+			position: fixed;
+			overflow: scroll;
+		}
+		#cy {
+				width: 48%;
+				height: 80%;
+				position: absolute;
+				overflow: hidden;
+			}
+
+		#footer {
+    	text-align: left;
+    	position: absolute;
+    	z-index: 10;
+    	height: 3em;
+    	margin-top: -2.5em;
+			color: #111111;
+			font-size: 0.7em;
+		}
+
+		#powered {
+			text-align: right;
+			vertical-align: bottom;
+			font-size: 0.8em;
+		}
+
+		#powered a:link {
+			font-weight: bold;
+			text-decoration: none;	
+		}
+
+		#powered a:visited  {
+			color: inherit;	
+		}
+		
+	</style>
+</head>
+<body>
+	
+  <table>
+  	<tr>
+  		<!--spacing and writing TITLE-->
+  		<td width="50%" height="5%">
+  		
+	        <h1><strong>BioBlocks</strong></h1>
+	
+	        <p>
+							
+				<!--------------------SAVE BUTTON CODE---------------->
+				<!--This button gets the code of each block and saves its structure and internal data-->
+				<button onclick="saveBlocks()">Save Experiment</button><!--Sentence to create a button, it call to saveBlocks() function when the button is clicked-->
+				<!--------------------END BUTTON SAVE------------------------------------->
+				
+				
+				<!------------------------ LOAD BUTTON FROM FILE-------------->
+				<!--This button is used to load blocks that we saved in previous sessions. It is a improve version of the button load.-->
+				<!--This code was extracter from internet, and is using the FileSaver.js document of the root folder-->
+				<input type="file" id="files" name="file" />
+				<span class="readBytesButtons">
+					<button> Load Experiment</button>
+					<script>
+						function readBlob() {
+							var files = document.getElementById('files').files;
+							if (!files.length) {
+								alert('Please select a file!');
+								return;
+							}
+						
+							var file = files[0];
+							var start =  0;
+							var stop =  file.size - 1;
+							var reader = new FileReader();
+							
+							// If we use onloadend, we need to check the readyState.
+							reader.onloadend = function(evt) {
+								if (evt.target.readyState == FileReader.DONE) { // DONE == 2
+									docXml = evt.target.result;
+									alert(docXml);
+									var xml = Blockly.Xml.textToDom(docXml);
+									Blockly.Xml.domToWorkspace(workspace, xml);
+								}
+							};
+							
+							var blob = file.slice(start, stop + 1);
+							reader.readAsBinaryString(blob);
+						}
+						
+						document.querySelector('.readBytesButtons').addEventListener('click', function(evt) {
+							if (evt.target.tagName.toLowerCase() == 'button') {
+								readBlob();
+							}
+						}, false);
+					</script>
+				</span>			
+			</p>
+		</td>
+		
+		<td id="powered">
+			 <p>powered by  <a href="https://developers.google.com/blockly/">Blockly</a>  and <a href="http://www.cytoscape.org/">Cytoscape</a></p>	
+		</td>
+	</tr>		
+   	
+	 
+	<!--<tr> 
+		<!--Format of the application. Top line for button. The remaining space is divided in two halves. Left half for blockly, right half for codes. The code space is divided in three thirds top: JSON, center:natural language (english), bottom: graphs --->	
+		<td id="blocklyArea" width="50%" height="95%"></td> <!--Blockly area definition-->
+		
+	<td>
+		<ul class="tab">
+		  <li><a href="#" class="tablinks" onclick="openCity(event, 'JSON')">Machine Code</a></li>
+		  <li><a href="#" class="tablinks" onclick="openCity(event, 'NaturalLanguageOutput')">English Translation</a></li>
+		  <li><a href="#" class="tablinks" onclick="openCity(event, 'cy')">Protocol Workflow </a></li>
+		</ul>
+	
+	
+	<div id="JSON" class="tabcontent">
+	  <br><p id="codeToShow1"></p>
+	</div>
+	
+	<div id="NaturalLanguageOutput" class="tabcontent">
+	  <p id="codeToShow2"></p>
+	</div>
+	
+	<div id="cy" class="tabcontent">
+	  <p id="codeToShow3"></p>
+	</div>
+	</td>
+	</tr>
+
+	<tr>
+		<td colspan="2"> 
+			<div id="footer">
+				<p>Copyright 2004-2016 - Lia Group</p>
+			</div>
+		</td>
+	</tr>
+
+	<!--Function to manipulate the toggeable tabs.-->
+	<script>	
+		function openCity(evt, cityName) {
+		    var i, tabcontent, tablinks;
+		    tabcontent = document.getElementsByClassName("tabcontent");
+		    for (i = 0; i < tabcontent.length; i++) {
+		        tabcontent[i].style.display = "none";
+		    }
+		    tablinks = document.getElementsByClassName("tablinks");
+		    for (i = 0; i < tabcontent.length; i++) {
+		        tablinks[i].className = tablinks[i].className.replace(" active", "");
+		    }
+		    document.getElementById(cityName).style.display = "block";
+		    evt.currentTarget.className += " active";
+		}
+		
+	</script>
+	
+	
+	
+	
+	
+		<script><!--Function developed for study of the special memory object built up to the mutation autoload memory-->
+			function test() {
+				for (var k in containerObject){ <!--Loop to iterate every objects inside the container object GLOBAL-->
+					if (containerObject.hasOwnProperty(k)) {<!--Check if the current "containerName"==id has "contListOptionValueNum"==object of container information-->
+						//alert("hola " +k +" YEI " +  +containerObject[k]);
+						conti=containerObject[k]<!--Assign the current LOCAL object of a container-->
+						for(var h in conti){
+							if (conti.hasOwnProperty(h)){ <!--Loop to iterate every objects inside the container object LOCAL-->
+								alert(h + conti[h]) <!--Display the data, This serve to the developer to check possible errors-->
+								//alert("Funciona " +  conti[h].name);
+							}
+						}
+					}
+				}
+			}
+		</script>
+		<script><!--This function print in a window the bioblocks in JSON format.-->
+			function runJS() {
+				Blockly.JavaScript.addReservedWords('code');<!--Special function of blockly-->
+				var code = Blockly.JavaScript.workspaceToCode();<!--Get the blocks in the workspace and use the function that give the code-->
+				alert(code);<!--Display the code in the screen-->
+				
+				/*Execute the javascript code, for bioblocks is useless because it needs the laboratory*/
+				/*
+				try {
+					eval(code);<!--Execute the code-->
+				} catch (e) {<!--Catch exception errors-->
+				alert(e);
+				
+				}	*/					}
+		</script>
+		<script>
+			function saveBlocks() {	
+				filename=prompt("Write the output file name: ");<!--Ask to the user to prompt the name of the file-->
+				var xml = Blockly.Xml.workspaceToDom(workspace);<!--Transform the workspace in a dom core-->
+				var xml_text = Blockly.Xml.domToPrettyText(xml);<!--Convert to xml, in addition the text is called pretty because ut includes tabulation-->
+				try {<!--Check if the browser accept the Binary large object--> 
+				    var isFileSaverSupported = !!new Blob;
+				    alert("Save is supported in this browser");
+				} catch (e) {alert(e);}
+				
+				var blob = new Blob([xml_text]);<!--Include the text in the blob-->
+				saveAs(blob, filename);<!--Save the blob in the file created on your PC-->
+			    alert('This block system is correctly saved');
+			}
+		</script>
+		<script>
+			function loadBlocks(){
+				docXml = prompt("Write the XML text you want to load");<!--Ask to the user to prompt the text in xml-->
+				alert(docXml)<!--Display the text to check possibles errors-->
+				<!--Functions of blockly to rebuild the blocks-->
+				var xml = Blockly.Xml.textToDom(docXml);
+				Blockly.Xml.domToWorkspace(workspace, xml);
+			}		
+			
+		</script>
+		<script>
+		 <!--Function which call to all the blocks and get the JSON code of the blocks, replace the values to print in html, and finally print them in the app-->
+			 var JSONcode = "";
+		 	 function myOwnFunction1(){
+				Blockly.Graph.addReservedWords('code');
+				//var code = Blockly.Graph.workspaceToCode();<!--This function call each block to develop the graphs. Useless for the graphs wich is controlled for "time of operation"-->
+				totalBlocks = this.workspace.getAllBlocks();<!-- This function performs an array which is used to store all the blocks in the workspace-->
+				
+				var maximumTimeOfOperation = 0;
+				var totalOperationBlocks = 0;
+				var childrenOperationArray={};<!--Array to store only the operation blocks (the green blocks).--> 
+				var h=0;<!--variable to iterate all the blocks in the workspace-->
+				JSONcode = '{\n    "refs": {\n';
+				while(h<= totalBlocks.length){
+					if (totalBlocks.hasOwnProperty(h)){<!--Check if it exists the object contain in totalBlock[h]-->
+						if(totalBlocks[h].getInput("Experiment")){ <!--If it's an experiment block go on -->
+							var childrenArray = {}<!--initialize of this object-->
+							childrenArray = totalBlocks[h].getDescendants(); <!--Get all the children of the CURRENT experiment block-->
+							var childrenContainerExists = {}
+							var s=0;
+							var boolExists=0;
+							
+							<!--This loop search in the all the children of experiment block and switch their kind call determinated functions-->
+							for(var k=0;k<childrenArray.length;k++){
+								if (childrenArray.hasOwnProperty(k)){
+									if(childrenArray[k].getFieldValue("containerName")){ <!--If it's a container-->
+										
+										for(var u=0;u<childrenArray.length;u++){
+										
+											if (childrenContainerExists.hasOwnProperty(u)){ <!--Check if a block with the same name already was processed-->
+												if ( childrenContainerExists[u].getFieldValue("containerName") == childrenArray[k].getFieldValue("containerName")){
+													boolExists=1;
+													
+												}
+											}
+										}
+										if(boolExists==0){ <!--If it's first time appear this container's name write their info in "refs:" of JSON code.-->
+											JSONcode = JSONcode + '        "' + childrenArray[k].getFieldValue("containerName") +'": {\n';
+											JSONcode = JSONcode + '            "id": "' + childrenArray[k].getFieldValue("containerName") +'", \n';
+											//JSONcode = JSONcode + '            "volume": "' + childrenArray[k].getFieldValue("initial_volume") +'", \n';
+											JSONcode = JSONcode + '            "store": { where: "' + childrenArray[k].getFieldValue("Destiny") +'" }\n        },\n';
+											childrenContainerExists[s] = childrenArray[k] <!--Include this name in the array to check if it already exists-->
+											s++;
+										}
+										boolExists=0; <!--Reboot this variable for next loop-->
+									}
+																			
+									if(childrenArray[k].getFieldValue("timeOfOperation")){ <!--If it's an operation block go on. Because all the operation block has the "timeOfOperation" input -->
+										
+										if(0>childrenArray[k].getFieldValue("timeOfOperation")){
+											alert("Warning, time of operation must be greater than 0"); <!--Warning message to advise to the user, that negative values are not allow-->
+										}
+										
+										if(maximumTimeOfOperation<Number(childrenArray[k].getFieldValue("timeOfOperation"))){
+											maximumTimeOfOperation=childrenArray[k].getFieldValue("timeOfOperation"); <!--Store the maximum time of operation off the blocks -->
+											
+										}
+										childrenOperationArray[totalOperationBlocks]=childrenArray[k]; <!--Assign the current operation block in the array of operation block-->
+										totalOperationBlocks++;
+									}
+								}
+							}							
+						}
+					}
+					h++;
+				}
+				<!--After store all function blocks, we do a loop to export the information of each of them arranged by the time of operation.-->
+				JSONcode = JSONcode.substring(0,JSONcode.length-2);
+				JSONcode = JSONcode + '\n      },\n        "instructions": [\n';
+				var operationBlocksToGraph=0;
+				var i=0;
+				while ( operationBlocksToGraph<totalOperationBlocks && i<=maximumTimeOfOperation){<!--Condition to make sure we are writing all the operation blocks.-->
+					for(var k=0;k<totalOperationBlocks;k++){
+						if (childrenOperationArray.hasOwnProperty(k)){
+							if(i == childrenOperationArray[k].getFieldValue("timeOfOperation")){ <!--Chech if the current block has the corresponding time of operation-->
+								
+								var bimbo = Blockly.JavaScript.blockToCode(childrenOperationArray[k]);  <!--Codify this block and its direct descendence.-->
+								operationBlocksToGraph++;
+								if( operationBlocksToGraph<totalOperationBlocks){
+									JSONcode = JSONcode + '                },\n';
+								}
+							}
+						}
+					}
+					i++; <!--increment the current "timeOfOperaion" output-->
+					
+				}
+				
+					JSONcode = JSONcode + '        }\n    ]\n}'; 
+			 	
+					
+				var res = JSONcode.replace(/\n/g, "<br>");<!--Replace "new string" value of javascript for the pertinent of html -->
+				var res = res.replace(/ /g, "&nbsp"); ;<!--Replace "space" value of javascript for the pertinent of html -->
+				document.getElementById("codeToShow1").innerHTML =  res; <!--Set the code inside local variable "res" in the element "codeToShow1" in the code area.-->
+			}
+		</script> 
+		<script>
+		<!--Function which call to all the blocks and get the NATURAL_LANGUAGE code of the blocks, replace the values to print in html, and finally print them in the app-->
+			 function myOwnFunction2(){
+				Blockly.NaturalLanguage_english.addReservedWords('code');<!--Special function of blockly-->
+				var code = Blockly.NaturalLanguage_english.workspaceToCode(this.workspace);<!--Get the blocks in the workspace and use the function that give the code-->
+				var res = code.replace(/\n/g, "<br>"); <!--Replace "new string" value of javascript for the pertinent of html --> 
+				//var res = res.replace(/ /g, "&nbsp"); <!--Replace "space" value of javascript for the pertinent of html -->
+				document.getElementById("codeToShow2").innerHTML =  res;  <!--Set the code inside local variable "res" in the element "codeToShow2" in the code area.-->
+			}
+		</script> 
+		<script>
+			/*Creation of the JSON object to develop the graphs */
+		 	var elements =  {nodes: [{ data: {  id: 'graphs' } }],edges: []	}; /*<!--Global variable to display the graphs-->*/
+		 	var initPositionX = 200;
+		 	var initPositionY = 0;
+		 	<!--Function which call to all the blocks and get the GRAPH code of the blocks, use the CYTOSCAPE program to perform the graph and print it in the code area.-->
+			function myOwnFunction3(){
+				/*It requires reboot the elements JSON object each time we use it */
+				elements.nodes.splice(0,elements.nodes.length);	/*<!--Eliminate all the previous data in the nodes-->*/
+				elements.edges.splice(0,elements.edges.length);/*<!--Eliminate all the previous data in the edges-->*/
+				initPositionX = 200;
+		 		initPositionY = 0;
+				
+				Blockly.Graph.addReservedWords('code');
+				var code = Blockly.Graph.workspaceToCode(this.workspace);<!--This function call each block to develop the graphs-->
+				
+				
+				/*<!--Function to DISPLAY GRAPHS. This function was performed by CYTOSCAPE-->*/
+				
+				$(function(){
+					
+					var cy = window.cy = cytoscape({
+						container: document.getElementById('cy'),
+						
+						boxSelectionEnabled: false,
+						autounselectify: true,
+						
+						layout: {
+							name: 'dagre'
+							},
+						
+						style: [
+						
+							{
+								selector: 'node',
+								css: {
+									'content': 'data(name)',
+									'shape': 'data(faveShape)',
+									'background-color': 'data(faveColor)',
+									'text-opacity': 100,
+									'text-valign': 'top',
+									'text-halign': 'center',
+							        'text-outline-color': 'data(faveColor)',
+							        'color': '#000',
+									'background-image' : 'data(backgroundImage)',
+									'background-fit' : 'contain',
+									'border-color' : 'data(faveColor)',
+									'border-width' : '1px',
+									'background-opacity' : 'data(backgroundOpacity)',
+									'border-opacity' : 'data(borderOpacity)'
+							        
+								}
+							}, {
+						      selector: '$node > node',
+						      css: {
+						        'padding-top': '10px',
+						        'padding-left': '10px',
+						        'padding-bottom': '10px',
+						        'padding-right': '10px',
+						        'text-valign': 'top',
+						        'text-halign': 'center',
+						        'background-color': '#bbb'
+						      }
+						    },
+								
+							{
+								selector: 'edge',
+								css: {
+									'content': 'data(name)',
+									'text-opacity': 1.0,
+									'text-valign': 'center',
+									'text-halign': 'right',
+									'text-max-width': 0.1,
+									'background-color': '#0',
+									'width': 1,
+									'target-arrow-shape': 'triangle',
+									'line-color': '#9dbaea',
+									'target-arrow-color': '#9dbaea',
+									'curve-style': 'bezier',
+							        'opacity': 0.666,
+							        'width': 'mapData(strength, 70, 100, 2, 6)',
+							        'target-arrow-shape': 'triangle',
+							        'source-arrow-shape': 'circle'
+							        
+								}
+							},
+							{
+								selector: 'edge.questionable',
+							      css: {
+							        'line-style': 'dotted',
+							        'target-arrow-shape': 'diamond'
+							      }
+						    },
+							
+    					{
+				      selector: ':selected',
+				      css: {
+				        'background-color': 'black',
+				        'line-color': 'black',
+				        'target-arrow-color': 'black',
+				        'source-arrow-color': 'black'
+				      	}
+  					  }
+						],
+						 elements
+						,
+						layout: {
+					    name: 'preset',
+					    padding: 5
+					  }
+					});
+					
+				});
+				
+			}
+		</script>
+ 
+   <div id="blocklyDiv" style="position: absolute"></div>
+	
+   <!--Definition of the toolbox in XML code-->
+	<xml id="toolbox" style="display: none"> 		
+		<category name="Containers">
+			<block type="container"></block>
+			<block type="containerList"></block>
+		</category>
+		<category name="Inputs">
+			<block type="math_number"></block>
+			<block type="text"></block>
+		</category>
+		<category name="Operartions">
+			<!-- <block type="turbidostat"></block> -->
+	    	<block type="pipette"></block>
+			<block type="electrophoresis"></block>
+			<block type="incubate"></block>
+			<block type="centrifugation"></block>
+			<block type="thermocycling"></block>
+			<block type="measurement"></block>
+			<block type="sangerSequencing"></block>
+			<block type="oligosynthesize"></block>
+			<block type="colonyPicking"></block>
+			<block type="cellSpreading"></block>
+			<block type="flashFreeze"></block>
+			<block type="mix"></block>
+			<block type="flowCitometry"></block>
+		</category>
+		<category name="Organization">
+			<block type="experiment"></block>
+			<block type="step"></block>
+		</category>
+	 <!-- <category name="Logic">
+			<block type="controls_if"></block>
+			<block type="logic_compare"></block>
+			<block type="logic_operation"></block>
+			<block type="logic_negate"></block>
+			<block type="logic_boolean"></block>
+			<block type="logic_null"></block>
+			<block type="logic_ternary"></block>
+		</category>
+		<category name="Loops">
+			<block type="controls_repeat_ext">
+			  <value name="TIMES">
+			    <block type="math_number">
+			      <field name="NUM">10</field>
+			    </block>
+			  </value>
+			</block>
+			<block type="controls_whileUntil"></block>
+			<block type="controls_for">
+			  <value name="FROM">
+			    <block type="math_number">
+			      <field name="NUM">1</field>
+			    </block>
+			  </value>
+			  <value name="TO">
+			    <block type="math_number">
+			      <field name="NUM">10</field>
+			    </block>
+			  </value>
+			  <value name="BY">
+			    <block type="math_number">
+			      <field name="NUM">1</field>
+			    </block>
+			  </value>
+			</block>
+			<block type="controls_forEach"></block>
+			<block type="controls_flow_statements"></block>
+		</category>
+		<category name="Math">
+			<block type="math_number"></block>
+			<block type="math_arithmetic"></block>
+			<block type="math_single"></block>
+			<block type="math_trig"></block>
+			<block type="math_constant"></block>
+			<block type="math_number_property"></block>
+			<block type="math_change">
+			  <value name="DELTA">
+			    <block type="math_number">
+			      <field name="NUM">1</field>
+			    </block>
+			  </value>
+			</block>
+			<block type="math_round"></block>
+			<block type="math_on_list"></block>
+			<block type="math_modulo"></block>
+			<block type="math_constrain">
+			  <value name="LOW">
+			    <block type="math_number">
+			      <field name="NUM">1</field>
+			    </block>
+			  </value>
+			  <value name="HIGH">
+			    <block type="math_number">
+			      <field name="NUM">100</field>
+			    </block>
+			  </value>
+			</block>
+			<block type="math_random_int">
+			  <value name="FROM">
+			    <block type="math_number">
+			      <field name="NUM">1</field>
+			    </block>
+			  </value>
+			  <value name="TO">
+			    <block type="math_number">
+			      <field name="NUM">100</field>
+			    </block>
+			  </value>
+			</block>
+			<block type="math_random_float"></block>
+		</category>
+		
+		<category name="Variables" custom="VARIABLE" enable="false"></category>
+		<category name="Functions" custom="PROCEDURE"></category> -->
+	</xml>
+	
+	
+	<script>
+  var blocklyArea = document.getElementById('blocklyArea');
+  var blocklyDiv = document.getElementById('blocklyDiv');
+  var workspace = Blockly.inject('blocklyDiv',
+    {toolbox: document.getElementById('toolbox'),
+     zoom:
+         {controls: true,
+          wheel: true,
+          startScale: 1.0,
+          maxScale: 3,
+          minScale: 0.3,
+          scaleSpeed: 1.2},
+     trashcan: true});
+	 
+  var onresize = function(e) {
+    // Compute the absolute coordinates and dimensions of blocklyArea.
+    var element = blocklyArea;
+    var x = 0;
+    var y = 0;
+    do {
+      x += element.offsetLeft;
+      y += element.offsetTop;
+      element = element.offsetParent;
+    } while (element);
+    // Position blocklyDiv over blocklyArea.
+    blocklyDiv.style.left = x + 'px';
+    blocklyDiv.style.top = y + 'px';
+    blocklyDiv.style.width = blocklyArea.offsetWidth + 'px';
+    blocklyDiv.style.height = blocklyArea.offsetHeight + 'px';
+  };
+  window.addEventListener('resize', onresize, false);
+  onresize();
+  Blockly.svgResize(workspace);
+</script>
+	</table>
+  </body>
+</html>

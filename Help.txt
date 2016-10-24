@@ -1,0 +1,19 @@
+The files in the folder have the following function-
+
+bioBlocksGraphLib - This file is used for translating the bioblocks to graphs.
+
+blocklyGraphLib - This file is used for translating the  blockly blocks to graphs.
+
+graph_compressed - This file is used for  calling the blocks. 
+
+javascript_bioBlocks - This file is used for translation of blocks to JSON.
+
+javascript_compressed - This file is used for calling the Blockly blocks.
+
+naturalLanguage_english_bioBlocks - This block is used for translating the BioBlocks to English.
+
+naturalLanguage_english_compressed - This file is used for calling the Blockly blocks (was overwirtten over the blockly python translation file, a neat hack!).
+
+jquery-2.0.3.min, cytoscape.min, cytoscape-dagre, dagre.min - These files are used for creating the graphs.
+
+FileSaver- This file is used for saving the blockly files.
