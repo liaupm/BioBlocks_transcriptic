@@ -111,6 +111,12 @@ Blockly.Blocks['container'] = {
 			.setAlign(Blockly.ALIGN_RIGHT)
 			.appendField("Destiny")
 			.appendField(new Blockly.FieldDropdown([["Store at Ambient", "Ambient"], ["Store at -80 deg.C", "Minus80"], ["Store at -20 deg.C", "minus20"], ["Store at 0 deg.C", "Zero"], ["Store at 4 deg.C", "Four"], ["Discard in Bio-Waste", "Bio-Waste"], ["Discard in Chemical-Waste", "Chemical-Waste"], ["Discard in Regular-Waste", "Regular-Waste"]]), "Destiny");
+	
+		this.appendDummyInput("Is_Reagent")
+			.setAlign(Blockly.ALIGN_RIGHT)
+			.appendField("Is Reagent")
+			.appendField(new Blockly.FieldDropdown([["True", "True"], ["False", "False"]]), "Is_Reagent");
+
 	},
 		
 /****************************************************************************************************************************************************************/		
@@ -167,6 +173,8 @@ Blockly.Blocks['container'] = {
 		
 		currentArray['containerName']=this.getFieldValue('containerName');//Saving the value of parameter containerName, in the same space of the LOCAL array. This example is the same for the remaining parameters
 		currentArray['Destiny']=this.getFieldValue('Destiny');
+		currentArray['Is_Reagent']=this.getFieldValue('Is_Reagent');
+
 		//currentArray['SEAL-COVER']=this.getFieldValue('SEAL-COVER');
 		
 		var volumeBlock = this.getInputTargetBlock('volume');
