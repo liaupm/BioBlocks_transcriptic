@@ -359,10 +359,11 @@ Blockly.NaturalLanguage_english['experiment'] = function(block) {
 	var childrenArray = this.getDescendants(); /*Get all the children*/
 	for(var k=0;k<childrenArray.length;k++){ /*Loop to write all names of different containers*/
 		if (childrenArray.hasOwnProperty(k)){
-			if(childrenArray[k].getFieldValue("containerName")){
-				if (!comparationArray.hasOwnProperty(childrenArray[k].getFieldValue("containerName"))){
-					code = code + '* ' + childrenArray[k].getFieldValue("containerName") +' \n';
-					comparationArray[childrenArray[k].getFieldValue("containerName")]=k;
+			var container = childrenArray[k];
+			if(container.getFieldValue("containerName") && container.getFieldValue("Is_Reagent") == "True" ){
+				if (!comparationArray.hasOwnProperty(container.getFieldValue("containerName"))){
+					code = code + '* ' + container.getFieldValue("containerName") +' \n';
+					comparationArray[container.getFieldValue("containerName")] = k;
 				}
 			}
 		}
