@@ -59,7 +59,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 		<!--<script src="../cytoscape.js/build/cytoscape.js"></script>-->
 		<script src="dagre.min.js"></script>
 		<script src="cytoscape-dagre.js"></script>
-	
+
+	<!--Library to render MarkDown to HTML -->
+		<script src="jquery-2.0.3.min.js"></script>
+		<script src="mmd.js"></script>
+
 	<!--Definition of the window scheme of the web page-->
 	<style>
 		html, body {
@@ -70,7 +74,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 			font-family: sans-serif;
 			overflow: hidden;
 		}
-		h1 {
+		#pagetitle {
 			font-weight: normal;
 			font-size: 140%;
 		}
@@ -170,7 +174,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
   		<!--spacing and writing TITLE-->
   		<td width="50%" height="5%">
   		
-	        <h1><strong>BioBlocks</strong></h1>
+	        <h1 id="pagetitle"><strong>BioBlocks</strong></h1>
 	
 	        <p>
 							
@@ -442,9 +446,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 			 function myOwnFunction2(){
 				Blockly.NaturalLanguage_english.addReservedWords('code');<!--Special function of blockly-->
 				var code = Blockly.NaturalLanguage_english.workspaceToCode(this.workspace);<!--Get the blocks in the workspace and use the function that give the code-->
-				var res = code.replace(/\n/g, "<br>"); <!--Replace "new string" value of javascript for the pertinent of html --> 
-				//var res = res.replace(/ /g, "&nbsp"); <!--Replace "space" value of javascript for the pertinent of html -->
-				document.getElementById("codeToShow2").innerHTML =  res;  <!--Set the code inside local variable "res" in the element "codeToShow2" in the code area.-->
+				document.getElementById("codeToShow2").innerHTML =  mmd(code);  <!--Set the code inside local variable "res" in the element "codeToShow2" in the code area.-->
 			}
 		</script> 
 		<script>

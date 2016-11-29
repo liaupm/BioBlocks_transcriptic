@@ -68,29 +68,29 @@ getEquipmentName = function(block_title) {
 	var title = null;
 	if (block_title) {
 		if (block_title == "INCUBATE") {
-			title =  "Incubator";
+			title =  "incubation";
 		} else if (block_title == "PIPETTE") {
-			title = "PIPETTE";
+			title = "pipetting";
 		} else if (block_title == "ELECTROPHORESIS") {
-			title = "ELECTROPHORESIS";
+			title = "electrophoresis";
 		} else if (block_title == "CENTRIFUGATION") {
-			title = "CENTRIFUGATION";
+			title = "centrifugation";
 		} else if (block_title == "THERMOCYCLING") {
-			title = "THERMOCYCLING";
+			title = "thermocycling";
 		} else if (block_title == "MEASUREMENT") {
-			title = "MEASUREMENT";
+			title = "measurement";
 		} else if (block_title == "SANGER SEQUENCING") {
-			title = "SANGER SEQUENCING";
+			title = "Sanger sequencing";
 		} else if (block_title == "OLIGOSYNTHESIZE") {
-			title = "OLIGOSYNTHESIZE";
+			title = "oligo synthesis";
 		}  else if (block_title == "COLONY PICKING") {
-			title = "COLONY PICKING";
+			title = "colony picking";
 		}  else if (block_title == "CELL SPREADING") {
-			title = "CELL SPREADING";
+			title = "cell spreading";
 		}  else if (block_title == "FLASH FREEZE") {
-			title = "FLASH FREEZE";
+			title = "flash freezing";
 		} else if (block_title == "FLOW CITOMETRY") {
-			title = "FLOW CITOMETRY";
+			title = "flow cytometry";
 		}
 	}
 	return title;
@@ -111,38 +111,38 @@ Blockly.NaturalLanguage_english['centrifugation'] = function(block) {
 }
 	
 Blockly.NaturalLanguage_english['electrophoresis'] = function(block) {
-	var code = '    Do an electrophoresis';  
+	var code = 'Do an electrophoresis';  
 	code = regularNaturalLanguageTranslation_(code,this);
 	return code;
 }
 
 
 Blockly.NaturalLanguage_english['flashFreeze'] = function(block) {
-	var code = '    Flash freeze ';   
+	var code = 'Flash freeze ';   
 	code = regularNaturalLanguageTranslation_(code,this);
 	return code;
 }
 
 Blockly.NaturalLanguage_english['flowCitometry'] = function(block) {
-	var code = '    Flow Analyze with data: \n';  
+	var code = 'Flow Analyze with data: \n';  
 	code = regularNaturalLanguageTranslation_(code,this);
 	return code;
 }
 
 Blockly.NaturalLanguage_english['incubate'] = function(block) {
-	var code = '    Incubate ';    
+	var code = 'Incubate ';    
 	code = regularNaturalLanguageTranslation_(code,this);
 	return code;
 }
 
 Blockly.NaturalLanguage_english['mix'] = function(block) {
-	var code = '    Mix ';    
+	var code = 'Mix ';    
 	code = regularNaturalLanguageTranslation_(code,this);
 	return code;
 }
 
 Blockly.NaturalLanguage_english['oligosynthesize'] = function(block) {
-	var code = '    Oligosynthesize ';    
+	var code = 'Oligosynthesize ';    
 	code = regularNaturalLanguageTranslation_(code,this);
 	return code;
 }
@@ -161,29 +161,28 @@ Blockly.NaturalLanguage_english['thermocycling'] = function(block) {
 
 Blockly.NaturalLanguage_english['measurement'] = function(block) {
 	var type_measure = block.getFieldValue('parameters');
-	switch (type_measure){//This function is to get the real name of the different kinds of pipetting.
+	switch (type_measure){
 		case '1':
-			type_measure="Absorbance";
+			type_measure="absorbance";
 		break;
 		case '2':
-			type_measure="Fluorescence";
+			type_measure="fluorescence";
 		break;
 		case '3':
-			type_measure="Luminiscence";
+			type_measure="luminiscence";
 		break;
 		case '4':
-			type_measure="Volume";
+			type_measure="volume";
 		break;
 		case '5':
-			type_measure="Temperature";
+			type_measure="temperature";
 		break;
 		default:
 		alert("Some error appeared translating language");
 	}
-	//Creating general code of PIPETTE function and its type
-	var code ='    ' + type_measure +' measure' ;
-	code = regularNaturalLanguageTranslation_(code,this);
-	return code;
+
+	var code = '     Measure ' + type_measure;
+	return regularNaturalLanguageTranslation_(code,this);
 }
 
 /**********************************************************************************************************/
@@ -196,7 +195,7 @@ Blockly.NaturalLanguage_english['measurement'] = function(block) {
 
 
 Blockly.NaturalLanguage_english['cellSpreading'] = function(block) {
-	var code = '    Spread ';     //initialize the code for incubate function
+	var code = 'Spread ';     //initialize the code for incubate function
 	
 	//Loop to get the real number of container blocks connected to the centrifugation, because is the centrifugation that extract the info of each container block.
 	var numberOfBlocks = 1;
@@ -218,7 +217,7 @@ Blockly.NaturalLanguage_english['cellSpreading'] = function(block) {
 };
 
 Blockly.NaturalLanguage_english['colonyPicking'] = function(block) {
-	var code = '    Autopick ';     //initialize the code for incubate function
+	var code = 'Autopick ';     //initialize the code for incubate function
 	
 	//Loop to get the real number of container blocks connected to the centrifugation, because is the centrifugation that extract the info of each container block.
 	var numberOfBlocks = 1;
@@ -258,7 +257,7 @@ Blockly.NaturalLanguage_english['pipette'] = function(block) {
 		alert("Some error appeared translating language");
 	}
 	//Creating general code of PIPETTE function and its type
-	var code = "    " + type_pipette + ' from  ';
+	var code = type_pipette + ' from  ';
 	
 	//SOURCE operations:****************************************************************************************************************************
 	//Loop to get the real number of container blocks connected to the pipette, because is the pipette that extract the info of each container block.
@@ -352,23 +351,25 @@ Blockly.NaturalLanguage_english['turbidostat'] = function(block) {
 /**********************************************************************************************************/
 
 Blockly.NaturalLanguage_english['experiment'] = function(block) {
-	var code = "Experiment name - " + block.getFieldValue('experimentName')+"\n\nSolutions/reagents:\n\n";
-	
+	var code = "# " + block.getFieldValue('experimentName') + "\n\n";
+	code = code + "## Solutions/reagents\n\n";
+
 	var comparationArray={};
 		
 	var childrenArray = this.getDescendants(); /*Get all the children*/
 	for(var k=0;k<childrenArray.length;k++){ /*Loop to write all names of different containers*/
 		if (childrenArray.hasOwnProperty(k)){
-			if(childrenArray[k].getFieldValue("containerName")){
-				if (!comparationArray.hasOwnProperty(childrenArray[k].getFieldValue("containerName"))){
-					code = code + '- ' + childrenArray[k].getFieldValue("containerName") +' \n';
-					comparationArray[childrenArray[k].getFieldValue("containerName")]=k;
+			var container = childrenArray[k];
+			if(container.getFieldValue("containerName") && container.getFieldValue("Is_Reagent") == "True" ){
+				if (!comparationArray.hasOwnProperty(container.getFieldValue("containerName"))){
+					code = code + '* ' + container.getFieldValue("containerName") +' \n';
+					comparationArray[container.getFieldValue("containerName")] = k;
 				}
 			}
 		}
 	}
 	
-	code = code + "\nEquipment:\n\n";
+	code = code + "\n## Operation types\n\n";
 	
 	for(var k=0;k<childrenArray.length;k++){ /*Loop for write all the equipment used (function blocks)*/
 		/*if (childrenArray.hasOwnProperty(k)){
@@ -385,11 +386,11 @@ Blockly.NaturalLanguage_english['experiment'] = function(block) {
 		}*/
 		var equipmentName = getEquipmentName(childrenArray[k].getFieldValue()); //block title
 		if (equipmentName) {
-			code = code + '-' + equipmentName + '\n';
+			code = code + '* ' + equipmentName + '\n';
 			comparationArray[childrenArray[k].getFieldValue()]=k;
 		}
 	}
-	code = code + "\nSteps:\n";
+	code = code + "\n## Steps\n\n";
 	
 	code = code + Blockly.NaturalLanguage_english.blockToCode(this.getInputTargetBlock('inputOfExperiment')); /*Call children blocks */
 	return code;
