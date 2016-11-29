@@ -70,7 +70,7 @@ getEquipmentName = function(block_title) {
 		if (block_title == "INCUBATE") {
 			title =  "incubation";
 		} else if (block_title == "PIPETTE") {
-			title = "pippeting";
+			title = "pipetting";
 		} else if (block_title == "ELECTROPHORESIS") {
 			title = "electrophoresis";
 		} else if (block_title == "CENTRIFUGATION") {
