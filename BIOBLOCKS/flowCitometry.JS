@@ -26,7 +26,7 @@ Blockly.Blocks['flowCitometry'] = {
 		//Creating inputs.
 		this.appendDummyInput()
 			.setAlign(Blockly.ALIGN_CENTRE)
-			.appendField("FLOW CITOMETRY")
+			.appendField("FLOW CYTOMETRY")
 		this.setTooltip('');
 		
 		this.appendValueInput("source")

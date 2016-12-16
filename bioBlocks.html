@@ -381,7 +381,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 											JSONcode = JSONcode + '        "' + childrenArray[k].getFieldValue("containerName") +'": {\n';
 											JSONcode = JSONcode + '            "id": "' + childrenArray[k].getFieldValue("containerName") +'", \n';
 											//JSONcode = JSONcode + '            "volume": "' + childrenArray[k].getFieldValue("initial_volume") +'", \n';
-											JSONcode = JSONcode + '            "store": { where: "' + childrenArray[k].getFieldValue("Destiny") +'" }\n        },\n';
+											JSONcode = JSONcode + '            "store": { \"where\": "' + childrenArray[k].getFieldValue("Destiny") +'" }\n        },\n';
 											childrenContainerExists[s] = childrenArray[k] <!--Include this name in the array to check if it already exists-->
 											s++;
 										}
@@ -567,7 +567,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
    <div id="blocklyDiv" style="position: absolute"></div>
 	
    <!--Definition of the toolbox in XML code-->
-	<xml id="toolbox" style="display: none"> 		
+	<xml id="toolbox" style="display: none"> 
+		<category name="Organization">
+			<block type="experiment"></block>
+			<block type="step"></block>
+		</category>		
 		<category name="Containers">
 			<block type="container"></block>
 			<block type="containerList"></block>
@@ -592,9 +596,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 			<block type="mix"></block>
 			<block type="flowCitometry"></block>
 		</category>
-		<category name="Organization">
-			<block type="experiment"></block>
-			<block type="step"></block>
+		<category name="Inputs">
+			<block type="math_number"></block>
+			<block type="text"></block>
 		</category>
 	 <!-- <category name="Logic">
 			<block type="controls_if"></block>

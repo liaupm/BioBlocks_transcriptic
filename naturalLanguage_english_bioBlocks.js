@@ -70,27 +70,27 @@ getEquipmentName = function(block_title) {
 		if (block_title == "INCUBATE") {
 			title =  "Incubator";
 		} else if (block_title == "PIPETTE") {
-			title = "PIPETTE";
+			title = "Pipette";
 		} else if (block_title == "ELECTROPHORESIS") {
-			title = "ELECTROPHORESIS";
+			title = "Electrophoresis Tank";
 		} else if (block_title == "CENTRIFUGATION") {
-			title = "CENTRIFUGATION";
+			title = "Centrifuge";
 		} else if (block_title == "THERMOCYCLING") {
-			title = "THERMOCYCLING";
+			title = "Thermocycler";
 		} else if (block_title == "MEASUREMENT") {
-			title = "MEASUREMENT";
+			title = "Mesurement Sensor";
 		} else if (block_title == "SANGER SEQUENCING") {
-			title = "SANGER SEQUENCING";
+			title = "Sequencer";
 		} else if (block_title == "OLIGOSYNTHESIZE") {
-			title = "OLIGOSYNTHESIZE";
+			title = "Oligosynthesizer";
 		}  else if (block_title == "COLONY PICKING") {
-			title = "COLONY PICKING";
+			title = "Colony Picker";
 		}  else if (block_title == "CELL SPREADING") {
-			title = "CELL SPREADING";
+			title = "Cell Spreader";
 		}  else if (block_title == "FLASH FREEZE") {
-			title = "FLASH FREEZE";
-		} else if (block_title == "FLOW CITOMETRY") {
-			title = "FLOW CITOMETRY";
+			title = "Liquid Nitrogen";
+		} else if (block_title == "FLOW CYTOMETRY") {
+			title = "Flow Cytometer";
 		}
 	}
 	return title;
@@ -384,7 +384,7 @@ Blockly.NaturalLanguage_english['experiment'] = function(block) {
 			}
 		}*/
 		var equipmentName = getEquipmentName(childrenArray[k].getFieldValue()); //block title
-		if (equipmentName) {
+		if (!(comparationArray.hasOwnProperty(childrenArray[k].getFieldValue())) && equipmentName) {
 			code = code + '-' + equipmentName + '\n';
 			comparationArray[childrenArray[k].getFieldValue()]=k;
 		}
