@@ -381,7 +381,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 											JSONcode = JSONcode + '        "' + childrenArray[k].getFieldValue("containerName") +'": {\n';
 											JSONcode = JSONcode + '            "id": "' + childrenArray[k].getFieldValue("containerName") +'", \n';
 											//JSONcode = JSONcode + '            "volume": "' + childrenArray[k].getFieldValue("initial_volume") +'", \n';
-											JSONcode = JSONcode + '            "store": { where: "' + childrenArray[k].getFieldValue("Destiny") +'" }\n        },\n';
+											JSONcode = JSONcode + '            "store": { \"where\": "' + childrenArray[k].getFieldValue("Destiny") +'" }\n        },\n';
 											childrenContainerExists[s] = childrenArray[k] <!--Include this name in the array to check if it already exists-->
 											s++;
 										}

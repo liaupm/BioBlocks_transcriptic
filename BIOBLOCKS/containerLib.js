@@ -762,10 +762,10 @@ Blockly.Blocks['container'] = {
 					.setAlign(Blockly.ALIGN_RIGHT)
 					.appendField("temperature")
 					.appendField(new Blockly.FieldNumber("0"), "temperature0")
-					.appendField(new Blockly.FieldDropdown([["Celsius", "celsius"], ["Kelvin", "kelvin"]]), "temperature_units0")
+					.appendField(new Blockly.FieldDropdown([["°C", "celsius"], ["K", "kelvin"]]), "temperature_units0")
 					.appendField("duration")
 					.appendField(new Blockly.FieldNumber("0"), "duration0")
-					.appendField(new Blockly.FieldDropdown([["Minutes", "minutes"], ["Milliseconds", "milliseconds"], ["Seconds", "seconds"], ["Hours", "hours"]]), "duration_units0");
+					.appendField(new Blockly.FieldDropdown([["min", "minutes"], ["ms", "milliseconds"], ["s", "seconds"], ["h", "hours"]]), "duration_units0");
 			}
 		}
 	},
@@ -1033,10 +1033,10 @@ Blockly.Blocks['container'] = {
 				.setAlign(Blockly.ALIGN_RIGHT)
 				.appendField("temperature"+(i+1))
 				.appendField(new Blockly.FieldNumber("0"), "temperature"+i)
-				.appendField(new Blockly.FieldDropdown([["Celsius", "celsius"], ["Kelvin", "kelvin"]]), "temperature_units" + i)
+				.appendField(new Blockly.FieldDropdown([["°C", "celsius"], ["K", "kelvin"]]), "temperature_units" + i)
 				.appendField("duration"+(i+1))
 				.appendField(new Blockly.FieldNumber("0"), "duration"+i)
-				.appendField(new Blockly.FieldDropdown([["Minutes", "minutes"], ["Milliseconds", "milliseconds"], ["Seconds", "seconds"], ["Hours", "hours"]]), "duration_units" + i);
+				.appendField(new Blockly.FieldDropdown([["min", "minutes"], ["ms", "milliseconds"], ["s", "seconds"], ["h", "hours"]]), "duration_units" + i);
 		}
 		
 		var myId = this.id;//we get our id, to locate us in the global array.
